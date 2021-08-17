@@ -1,5 +1,6 @@
 package com.prac.aws.springboot.awsspringbootprac.domain.posts;
 
+import com.prac.aws.springboot.awsspringbootprac.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Posts {
+public class Posts extends BaseTimeEntity {
 
 //    @Id : 테이블의 PK
 //    @GeneratedValue : PK 생성 규칙. GenerationType.IDENTITY : Auto Increment
