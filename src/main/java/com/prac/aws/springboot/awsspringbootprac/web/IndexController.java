@@ -1,5 +1,6 @@
 package com.prac.aws.springboot.awsspringbootprac.web;
 
+import com.prac.aws.springboot.awsspringbootprac.config.auth.dto.SessionUser;
 import com.prac.aws.springboot.awsspringbootprac.service.posts.PostsService;
 import com.prac.aws.springboot.awsspringbootprac.web.dto.PostsResponseDto;
 import com.prac.aws.springboot.awsspringbootprac.web.dto.PostsUpdateRequestDto;
@@ -11,16 +12,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.http.HttpSession;
+
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
 
     private final PostsService postsService;
+    private final HttpSession httpSession;
+
     @GetMapping("/")
     public String index(Model model){
 //        mustache 스타터에 의해 index 앞에 /template/, 뒤에 .mustache 가 붙어 반환되어,
 //        src/main/resources/templates/index.mustache로 전환되어 View Resolver 가 처리한다.
         model.addAttribute("posts", postsService.findAllDesc());
+
+        SessionUser user = (SessionUser)httpSession.getAttribute("user");
+        if(user != null){
+            model.addAttribute("userName", user.getName());
+        }
         return "index";
     }
 
