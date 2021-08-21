@@ -2,12 +2,17 @@ package com.prac.aws.springboot.awsspringbootprac.service.posts;
 
 import com.prac.aws.springboot.awsspringbootprac.domain.posts.Posts;
 import com.prac.aws.springboot.awsspringbootprac.domain.posts.PostsRepository;
+import com.prac.aws.springboot.awsspringbootprac.web.dto.PostsListResponseDto;
 import com.prac.aws.springboot.awsspringbootprac.web.dto.PostsResponseDto;
 import com.prac.aws.springboot.awsspringbootprac.web.dto.PostsSaveRequestDto;
 import com.prac.aws.springboot.awsspringbootprac.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @Service
@@ -33,5 +38,9 @@ public class PostsService {
         Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
 
         return new PostsResponseDto(entity);
+    }
+
+    public List<PostsListResponseDto> findAllDesc(){
+        return postsRepository.findAllDesc().stream().map(PostsListResponseDto::new).collect(Collectors.toList());
     }
 }
